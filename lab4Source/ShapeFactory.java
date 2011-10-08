@@ -106,13 +106,13 @@ public class ShapeFactory {
 					+ s.getParent().getY();
 
 			if (s.getParent().hasChildren()) {
-				s.setSibling(s.getParent().getLastChild());
-
-				s.handleOverlap(s.getSibling());
+				s.setSibling(s.getParent().getLastChild());				
+				s.handleOverlap(s.getSibling(), r);
 				/**
 				 * This is where the code for the removal of overlap between
 				 * shapes should be put.
 				 */
+				// TODO Fix code here
 			}
 
 		} while (isToSmall(s, r.width, r.height) && (counter < 100));

@@ -256,12 +256,12 @@ abstract public class AbstractShape {
 		return scale;
 	}
 
-	public void handleOverlap(AbstractShape abstractShape) {
+	public void handleOverlap(AbstractShape abstractShape, Rectangle rect) {
+		// TODO Handleoverlap
 		if (abstractShape == null)
 			return;
-		Rectangle rect = new Rectangle(abstractShape.x, abstractShape.y,
-				abstractShape.width, abstractShape.height);
-		this.removeOverlap(rect);
-		handleOverlap(abstractShape.getSibling());
+
+		abstractShape.removeOverlap(rect);
+		handleOverlap(abstractShape.getSibling(), rect);
 	}
 }
