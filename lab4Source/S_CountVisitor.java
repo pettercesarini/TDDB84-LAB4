@@ -24,11 +24,6 @@ public class S_CountVisitor extends AbstractVisitor {
 		totalNumber++;
 	}
 
-
-	public void visit(SquareProxy sp) {
-		totalNumber++;
-	}
-
 	public int getTotalNumber() {
 		return totalNumber;
 	}
