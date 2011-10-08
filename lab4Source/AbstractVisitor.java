@@ -6,28 +6,50 @@ package lab4Source;
 
 /**
  * The abstract super class to all the visitors accepted by the shapes.
+ * 
  * @author Peter Sunnergren
  */
 
 public abstract class AbstractVisitor {
+
 	/**
 	 * Visits the square.
-	 * @param s Square.
+	 * 
+	 * @param s
+	 *            Square.
 	 */
 	public abstract void visit(Square s);
+
 	/**
 	 * Visits the rectangle.
-	 * @param r Rectangle.
+	 * 
+	 * @param r
+	 *            Rectangle.
 	 */
 	public abstract void visit(Rectangle r);
+
 	/**
 	 * Visits the circle.
-	 * @param c Circle.
+	 * 
+	 * @param c
+	 *            Circle.
 	 */
 	public abstract void visit(Circle c);
+
 	/**
 	 * Visits the triangle.
-	 * @param t Triangle.
+	 * 
+	 * @param t
+	 *            Triangle.
 	 */
 	public abstract void visit(Triangle t);
+
+	/**
+	 * Visits the square proxy.
+	 * 
+	 * @param t
+	 *            SquareProxy.
+	 */
+	//public abstract void visit(SquareProxy sp) ;
+
 }

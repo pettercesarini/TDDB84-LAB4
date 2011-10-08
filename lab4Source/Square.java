@@ -81,6 +81,7 @@ public class Square extends AbstractSquare {
 	 * @param l List of shapes.
 	 * @return New version of list of shapes.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public AbstractList getListOfShapes(AbstractList l) {
 		l.add(this);
 		Iterator iter = children.iterator();
@@ -94,8 +95,10 @@ public class Square extends AbstractSquare {
 	 * Accepts a visitor.
 	 * @param v Visitor.
 	 */
+	@SuppressWarnings("rawtypes")
 	public void accept (AbstractVisitor v) {
 		v.visit(this);
+		
 		Iterator iter = children.iterator();
 		while (iter.hasNext()) {
 			((AbstractShape)iter.next()).accept(v);
@@ -106,6 +109,7 @@ public class Square extends AbstractSquare {
 	 * Adds a child.
 	 * @param child The new child.
 	 */
+	@SuppressWarnings("unchecked")
 	public void addChild(AbstractShape child) {
 		children.add(child);
 	}

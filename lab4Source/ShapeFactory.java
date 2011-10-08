@@ -112,7 +112,6 @@ public class ShapeFactory {
 				 * This is where the code for the removal of overlap between
 				 * shapes should be put.
 				 */
-				// TODO Fix code here
 			}
 
 		} while (isToSmall(s, r.width, r.height) && (counter < 100));

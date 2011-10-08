@@ -3,22 +3,26 @@
  *
  */
 package lab4Source;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 /**
  * The panel that contains the root shape.
+ * 
  * @author Peter Sunnergren
  */
 public class ShapePanel extends JPanel {
 	private Square root;
 	private boolean paintVisitor = false;
 	private boolean paintIterator = false;
-	
-	public ShapePanel () {
+
+	public ShapePanel() {
 		setMinimumSize(new Dimension(400, 400));
 		setMaximumSize(new Dimension(400, 400));
 		setBackground(Color.yellow);
@@ -31,22 +35,23 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * Draws the shapes and the borders around them.
-	 * This is where the functionality to draw with a Visitor or Iterator are filled in.
+	 * Draws the shapes and the borders around them. This is where the
+	 * functionality to draw with a Visitor or Iterator are filled in.
 	 */
-	public void paint(Graphics g)
-	{
+	public void paint(Graphics g) {
 		super.paint(g);
 		if (AbstractShape.paintChildren) {
 			root.paint(g);
-		} else if (paintVisitor){
-			/**
-			 * Place code to draw with Visitor here
-			 */ 
+		} else if (paintVisitor) {
+			AbstractVisitor visitor = new S_PaintVisitor(g);
+			root.accept(visitor);
 		} else if (paintIterator) {
-			/**
-			 * Place code to draw with Iterator here
-			 */
+			AbstractIterator iterator = new S_ConcreteIterator(root);
+			iterator.first();
+			while (!iterator.isDone()) {
+				((AbstractShape) iterator.currentItem()).paint(g);
+				iterator.next();
+			}
 		}
 		Marked.paint(g);
 	}
@@ -59,27 +64,27 @@ public class ShapePanel extends JPanel {
 		paintVisitor = false;
 		paintIterator = false;
 	}
-	
+
 	/**
 	 * Sets that next time drawing should bee done with the Visitior pattern.
-	 *
+	 * 
 	 */
 	public void setPaintVisitor() {
 		AbstractShape.paintChildren = false;
 		paintVisitor = true;
 		paintIterator = false;
 	}
-	
+
 	/**
 	 * Sets that next time drawing should bee done with the Iterator pattern.
-	 *
+	 * 
 	 */
 	public void setPaintIterator() {
 		AbstractShape.paintChildren = false;
 		paintVisitor = false;
-		paintIterator = true;		
+		paintIterator = true;
 	}
-	
+
 	/**
 	 * Applies the Visitor to the root shape.
 	 */
@@ -88,9 +93,13 @@ public class ShapePanel extends JPanel {
 		/**
 		 * Place to code to count the shapes using a Visitor here.
 		 */
-		ShapeApplet.setOutputText("Number of shapes: " + String.valueOf(totalNumber));
+		S_CountVisitor visitor = new S_CountVisitor();
+		root.accept(visitor);
+		totalNumber=visitor.getTotalNumber();
+		ShapeApplet.setOutputText("Number of shapes: "
+				+ String.valueOf(totalNumber));
 	}
-	
+
 	/**
 	 * Applies a Iterator to the root shape.
 	 */
@@ -99,24 +108,39 @@ public class ShapePanel extends JPanel {
 		/**
 		 * Place the code to count the shapes using an Iterator here.
 		 */
+		
+		AbstractIterator iterator = new S_ConcreteIterator(root);
+		iterator.first();
+		while (!iterator.isDone()) {
+			totalNumber++;
+			iterator.next();
+		}
 
-		ShapeApplet.setOutputText("Number of shapes: " + String.valueOf(totalNumber));
+		ShapeApplet.setOutputText("Number of shapes: "
+				+ String.valueOf(totalNumber));
 	}
-	
+
 	/**
 	 * Marks the clicked shape by placing it in Marked.
-	 * @param evt A mouseevent that contains the position of the click.
+	 * 
+	 * @param evt
+	 *            A mouseevent that contains the position of the click.
 	 */
 	public void markClickedShape(MouseEvent evt) {
-		if ((evt.getX() > getBounds().x) && (evt.getX() < (getBounds().x + getBounds().width)) &&
-				(evt.getY() > getBounds().y) && (evt.getY() < (getBounds().y + getBounds().height))) {
-			Marked.markShape(root.getMarkedShape(evt.getX() - getLocation().x, evt.getY() - 24 - getLocation().y));
+		if ((evt.getX() > getBounds().x)
+				&& (evt.getX() < (getBounds().x + getBounds().width))
+				&& (evt.getY() > getBounds().y)
+				&& (evt.getY() < (getBounds().y + getBounds().height))) {
+			Marked.markShape(root.getMarkedShape(evt.getX() - getLocation().x,
+					evt.getY() - 24 - getLocation().y));
 		}
 	}
-	
+
 	/**
 	 * Adds some test shapes. Useful when testing.
-	 * @param number The number of layers of shapes.
+	 * 
+	 * @param number
+	 *            The number of layers of shapes.
 	 */
 	public void makeTestShapes(int number) {
 		AbstractShape shape = root;
